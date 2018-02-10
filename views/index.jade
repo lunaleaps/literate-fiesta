@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  form.create-user
+    h1 Create a new user
+
+    input(type="text" class="username" placeholder="username")
+    input(type="password" class="password" placeholder="password")
+    input(type="submit" value="Create user")
+
+  script.
+    const CreateUser = document.querySelector('.create-user')
+    CreateUser.addEventListener('submit', (e) => {
+      e.preventDefault()
+      const username = CreateUser.querySelector('.username').value
+      const password = CreateUser.querySelector('.password').value
+      post('/users/create', { username, password })
+    })
+
+    function post(path, data) {
+      console.log('making fetch');
+      return window.fetch(path, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+    }
